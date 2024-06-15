@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kakao Open Chat Rooms</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 50px;
+    }
+    th, td {
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center mb-4">Kakao Open Chat Rooms</h2>
+    <a href="/form">form</a>
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Kakao Link</th>
+          <th scope="col">Theme</th>
+          <th scope="col">Source Address</th>
+          <th scope="col">Date Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% infos.forEach(info=> { %>
+          <tr>
+            <th scope="row"><%= info.id %></th>
+            <td><a href="<%= info.kakaoLink %>" target="_blank"><%= info.kakaoLink.replace('https://open.kakao.com', '') %></a></td>
+            <td><%= info.theme %></td>
+            <td><a href="<%= info.sourceAddress %>" target="_blank"><%= info.sourceAddress %></a></td>
+            <td><%= info.createdAt.toDateString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

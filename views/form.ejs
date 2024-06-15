@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kakao Open Chat Room</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container mt-5">
+    <h2 class="text-center">Kakao Open Chat Room Information</h2>
+    <form id="infoForm">
+      <div class="form-group">
+        <label for="kakaoLink">Kakao Link:</label>
+        <input type="url" class="form-control" id="kakaoLink" placeholder="Enter Kakao Link URL" required>
+      </div>
+      <div class="form-group">
+        <label for="theme">Theme:</label>
+        <input type="text" class="form-control" id="theme" placeholder="Enter Theme Name" required>
+      </div>
+      <div class="form-group">
+        <label for="sourceAddress">Source Address:</label>
+        <input type="url" class="form-control" id="sourceAddress" placeholder="Enter Source Address URL" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <a href="/chatrooms">rooms</a>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $('#infoForm').on('submit', function (e) {
+        e.preventDefault();
+
+        const kakaoLink = $('#kakaoLink').val();
+        const theme = $('#theme').val();
+        const sourceAddress = $('#sourceAddress').val();
+
+        if (!kakaoLink || !theme || !sourceAddress) {
+          alert('Please fill all fields.');
+          return false;
+        }
+
+        fetch('/info', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            kakaoLink,
+            theme,
+            sourceAddress
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data); // 서버 응답 콘솔 출력
+            alert('Information submitted successfully.'); // 사용자에게 성공 메시지 알림
+          })
+          .catch((error) => {
+            console.error('Error:', error); // 에러 발생 시 콘솔 출력
+            alert('An error occurred. Please try again.'); // 사용자에게 에러 알림
+          });
+
+        // Clear input fields after submission
+        $('#infoForm')[0].reset();
+      });
+    });
+  </script>
+
+
+</body>
+
+</html>
