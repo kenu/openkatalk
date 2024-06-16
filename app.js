@@ -41,7 +41,9 @@ app.use(cors())
 app.get('/', async (req, res) => {
   try {
     sequelize.sync()
-    const infos = await Info.findAll()
+    const infos = await Info.findAll({
+      order: [['createdAt', 'DESC']],
+    })
     res.send(infos)
   } catch (error) {
     console.error(error)
@@ -50,8 +52,22 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/chatrooms', async (req, res) => {
+  function formatDate(date) {
+    let year = date.getFullYear()
+    let month = ('0' + (date.getMonth() + 1)).slice(-2)
+    let day = ('0' + date.getDate()).slice(-2)
+    let hour = ('0' + date.getHours()).slice(-2)
+    let minute = ('0' + date.getMinutes()).slice(-2)
+    return `${year}-${month}-${day} ${hour}:${minute}`
+  }
+
   try {
-    const infos = await Info.findAll()
+    const infos = await Info.findAll({
+      order: [['createdAt', 'DESC']],
+    })
+    infos.forEach((info) => {
+      info.created = formatDate(info.createdAt)
+    })
     res.render('infos', { infos })
   } catch (error) {
     console.error(error)
